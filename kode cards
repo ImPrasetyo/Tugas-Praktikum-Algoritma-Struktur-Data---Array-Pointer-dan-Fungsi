@@ -1,0 +1,67 @@
+#include <stdio.h>     
+#include <stdlib.h>   
+#include <string.h>   
+
+ int card_value(char card) {   
+     if (card >= '2' && card <= '9'){ //menentukan minimal dan maksimal kartu
+         return card - '0';  
+     } else if (card == 'J' || card == 'j'){ //definisi kartu j sebagai 11
+         return 11;  
+     } else if (card == 'Q' || card == 'q'){ //definisi kartu q sebagai 12
+        return 12;   
+   } else if (card == 'K' || card == 'k'){ //definisi kartu k sebagai 13
+        return 13;   
+   }
+    return 0;  
+ }
+
+ int bubble_sort(char cards[], int n) {  
+    int i, j;  
+    int steps = 0;   
+    int swapped;  
+    for (i = 0; i < n - 1; i++) {   
+        swapped = 0;   // Menetapkan swapped ke 0 di awal 
+        for (j = 0; j < n - i - 1; j++) {   
+            if (card_value(cards[j]) > card_value(cards[j + 1])) {   // Membandingkan nilai kartu.
+                char temp = cards[j];   // Menyimpan nilai kartu sementara.
+                cards[j] = cards[j + 1];   // Menukar nilai kartu.
+                cards[j + 1] = temp;   // Mengembalikan nilai kartu sementara ke posisi sebelumnya.
+                steps++;  
+                swapped = 1;  
+                printf("Pertukaran %d: ", steps);   // Mencetak langkah pertukaran.
+                for (int k = 0; k < n; k++) {   // Mencetak kartu-kartu setelah pertukaran.
+                    printf("%c ", cards[k]);  
+                }                printf("\n");   
+
+                if (steps == 5) {   // Memeriksa apakah sudah dilakukan lima pertukaran.
+                    printf("Melakukan pertukaran sebanyak: %d\n", steps);   // Mencetak jumlah pertukaran.
+                    return steps;   // Mengembalikan jumlah pertukaran.
+                }
+            }
+        }
+
+        if (swapped == 0)   // Jika tidak ada pertukaran, berhenti.
+            break;
+    }
+    printf("Melakukan pertukaran sebanyak: %d\n", steps);   // Mencetak jumlah pertukaran.
+    return steps;   // Mengembalikan jumlah pertukaran.
+}
+
+ int main() {   
+    int n;  
+    printf("Masukkan jumlah kartu: ");   
+    scanf("%d", &n);   
+
+    char *cards = (char *)malloc(n * sizeof(char));   // Mengalokasikan memori untuk kartu-kartu.
+
+   printf("Masukkan nilai kartu (spasi): ");   
+    for (int i = 0; i < n; i++) {   // Mengulangi proses menerima input untuk setiap kartu.
+        scanf(" %c", &cards[i]);  
+    }
+    int steps = bubble_sort(cards, n);   // Memanggil fungsi bubble_sort untuk mengurutkan kartu.
+    printf("\nMelakukan pertukaran sebanyak: %d\n", steps);   // Mencetak jumlah pertukaran.
+
+    free(cards);   // Membebaskan memori yang dialokasikan untuk kartu.
+
+    return 0;  
+}
